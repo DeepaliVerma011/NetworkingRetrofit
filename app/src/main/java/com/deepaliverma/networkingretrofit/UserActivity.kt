@@ -19,14 +19,14 @@ class UserActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user)
 
-       val id=intent.getStringExtra("ID")
+        val id = intent.getStringExtra("ID")
 
-        GlobalScope.launch(Dispatchers.Main){
-            val response= withContext(Dispatchers.IO) {Client.api.getUsersbyId()}
-            if(response.isSuccessful){
+        GlobalScope.launch(Dispatchers.Main) {
+            val response = withContext(Dispatchers.IO) { Client.api().getUsersbyId(id ?: "") }
+            if (response.isSuccessful) {
                 response.body()?.let {
-                    textView.text=it.name
-                    textView1.text=it.login
+                    textView.text = it.name
+                    textView1.text = it.login
                     Picasso.get().load(it.avatarUrl).into(imageView);
                 }
             }
